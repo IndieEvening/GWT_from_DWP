@@ -2,6 +2,10 @@ package com.myGWTapp.client;
 
 import java.awt.TextField;
 
+import com.google.gwt.core.shared.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
@@ -10,10 +14,15 @@ import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.myGWTapp.server.AddCustomerService;
+import com.myGWTapp.server.AddCustomerServiceAsync;
 
 public class MyViewModel {
 
 	public static void createView() {
+		
+		final AddCustomerServiceAsync asyncInterface = GWT.create(AddCustomerService.class);
+		
 		/*
 		 * Data wypozyczenia - to mozna generowac automatycznie pobierajac czas z systemu
 		 * Pole wyboru dla czasu wypozyczenia - od aktualnej daty zaczniemy odliczac zegar w dół
@@ -48,5 +57,28 @@ public class MyViewModel {
 		surnameInput.setWidth("300px");
 		tab1.setWidget(1, 1, surnameInput);
 
+		final Button sendButton = new Button("Wyslij dane");
+		sendButton.setWidth("200px");
+		
+		tab1.setWidget(2, 0, sendButton);
+		
+		sendButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent e) {
+				
+				asyncInterface.addCustomer(nameInput.getText(), surnameInput.getText(), new AsyncCallback<String>() {
+					
+					@Override
+					public void onSuccess(String arg0) {
+						// Signal Success
+					}
+					
+					@Override
+					public void onFailure(Throwable arg0) {
+						// Signal Failure
+					}
+				});
+			}
+		});
 	}
 }

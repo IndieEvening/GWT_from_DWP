@@ -5,6 +5,17 @@
 	id="WebApp_ID" version="3.1">
 	<display-name>GWT_from_DWP</display-name>
 
+	<!-- Servlets -->
+	<servlet>
+		<servlet-name>customerService</servlet-name>
+		<servlet-class>com.myGWTapp.server.AddCustomerServiceImp</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>customerService</servlet-name>
+		<url-pattern>/myGWTapp/addcustomer</url-pattern>
+	</servlet-mapping>
+  
 	<!-- Default page to serve -->
 	<welcome-file-list>
 		<welcome-file>Wyklad_14_06.html</welcome-file>
